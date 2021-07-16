@@ -7,13 +7,15 @@ const NweetList = () => {
   const currentUser = FIREBASE_AUTH.currentUser;
 
   const getNweetsSubscribe = () => {
-    FIREBASE_FIRESTORE.collection('nweets').onSnapshot(snapshot => {
-      const nweetArray = snapshot.docs.map(document => ({
-        docId: document.id,
-        ...document.data(),
-      }));
-      setNweets(nweetArray);
-    });
+    FIREBASE_FIRESTORE.collection('nweets')
+      .orderBy('createdAt')
+      .onSnapshot(snapshot => {
+        const nweetArray = snapshot.docs.map(document => ({
+          docId: document.id,
+          ...document.data(),
+        }));
+        setNweets(nweetArray);
+      });
   };
 
   useEffect(() => {
